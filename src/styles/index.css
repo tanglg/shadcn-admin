@@ -17,6 +17,15 @@
     @apply min-h-svh w-full bg-background text-foreground has-[div[data-variant='inset']]:bg-sidebar;
   }
 
+  [data-theme='retro-blue'] :is(h1, h2, h3, h4, h5, h6),
+  [data-theme='claude'] :is(h1, h2, h3, h4, h5, h6) {
+    color: var(--primary);
+  }
+
+  [data-theme='command-center'] body {
+    font-family: ui-sans-serif, system-ui, sans-serif;
+  }
+
   /* Override Radix scroll locking for sticky headers */
   body[data-scroll-locked] {
     overflow: unset !important;
@@ -35,6 +44,49 @@
     textarea {
       font-size: 16px !important;
     }
+  }
+}
+
+@layer components {
+  [data-theme='command-center']
+    :is(
+      [data-slot='sidebar-inner'],
+      [data-slot='sidebar'][data-mobile='true']
+    ) {
+    border-color: rgb(255 255 255 / 10%);
+    -webkit-backdrop-filter: blur(12px);
+    backdrop-filter: blur(12px);
+  }
+
+  [data-theme='command-center'] [data-slot='sidebar-container'] {
+    border-color: rgb(255 255 255 / 10%);
+  }
+
+  [data-theme='command-center'] [data-slot='header'] {
+    color: #ffffff;
+    background-color: rgb(0 0 0 / 70%);
+    border-bottom: 1px solid rgb(255 255 255 / 10%);
+    -webkit-backdrop-filter: blur(12px);
+    backdrop-filter: blur(12px);
+  }
+
+  [data-theme='command-center'] [data-slot='header'] [data-slot='button'] {
+    color: rgb(255 255 255 / 70%);
+    background-color: transparent;
+    border-color: rgb(255 255 255 / 10%);
+  }
+
+  [data-theme='command-center']
+    [data-slot='header']
+    [data-slot='button']:hover {
+    color: #ffffff;
+    background-color: var(--primary);
+  }
+
+  [data-theme='command-center'] [data-slot='header'] [data-slot='separator'],
+  [data-theme='command-center'] [data-slot='header'] kbd {
+    background-color: rgb(255 255 255 / 10%);
+    border-color: rgb(255 255 255 / 10%);
   }
 }
 

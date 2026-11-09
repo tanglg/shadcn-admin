@@ -41,8 +41,10 @@ describe('ConfigDrawer (integration)', () => {
     vi.clearAllMocks()
 
     clearCookies()
+    window.localStorage.removeItem('theme_id')
 
     document.documentElement.classList.remove('light', 'dark')
+    document.documentElement.removeAttribute('data-theme')
     document.documentElement.removeAttribute('dir')
   })
 
@@ -56,6 +58,7 @@ describe('ConfigDrawer (integration)', () => {
     await expect.element(drawer).toBeInTheDocument()
 
     await expect.element(drawer.getByText(/^Theme$/i)).toBeInTheDocument()
+    await expect.element(drawer.getByText(/^Color Theme$/i)).toBeInTheDocument()
     await expect.element(drawer.getByText(/^Layout$/i)).toBeInTheDocument()
     await expect
       .element(drawer.getByText(/^Sidebar$/i).first())
@@ -109,6 +112,158 @@ describe('ConfigDrawer (integration)', () => {
         const hasLight = root.classList.contains('light')
         const hasDark = root.classList.contains('dark')
         expect(hasLight !== hasDark).toBe(true)
+      })
+    })
+  })
+
+  describe('color theme preference', () => {
+    it('applies Retro Blue to <html> and localStorage', async () => {
+      const screen = await renderConfigDrawer()
+      await openDrawer(screen)
+
+      await userEvent.click(
+        screen.getByRole('radio', { name: /select retro blue/i })
+      )
+
+      await vi.waitFor(() =>
+        expect(document.documentElement.getAttribute('data-theme')).toBe(
+          'retro-blue'
+        )
+      )
+      expect(window.localStorage.getItem('theme_id')).toBe('retro-blue')
+    })
+
+    it('layers Retro Blue with dark mode', async () => {
+      setCookie('vite-ui-theme', 'dark')
+      const screen = await renderConfigDrawer()
+      await openDrawer(screen)
+
+      await userEvent.click(
+        screen.getByRole('radio', { name: /select retro blue/i })
+      )
+
+      await vi.waitFor(() => {
+        const root = document.documentElement
+        expect(root.classList.contains('dark')).toBe(true)
+        expect(root.getAttribute('data-theme')).toBe('retro-blue')
+      })
+    })
+
+    it('restores a stored Retro Blue preference', async () => {
+      window.localStorage.setItem('theme_id', 'retro-blue')
+      await renderConfigDrawer()
+
+      await vi.waitFor(() =>
+        expect(document.documentElement.getAttribute('data-theme')).toBe(
+          'retro-blue'
+        )
+      )
+    })
+
+    it('applies Claude to <html> and localStorage', async () => {
+      const screen = await renderConfigDrawer()
+      await openDrawer(screen)
+
+      await userEvent.click(
+        screen.getByRole('radio', { name: /select claude/i })
+      )
+
+      await vi.waitFor(() =>
+        expect(document.documentElement.getAttribute('data-theme')).toBe(
+          'claude'
+        )
+      )
+      expect(window.localStorage.getItem('theme_id')).toBe('claude')
+    })
+
+    it('layers Claude with dark mode', async () => {
+      setCookie('vite-ui-theme', 'dark')
+      const screen = await renderConfigDrawer()
+      await openDrawer(screen)
+
+      await userEvent.click(
+        screen.getByRole('radio', { name: /select claude/i })
+      )
+
+      await vi.waitFor(() => {
+        const root = document.documentElement
+        expect(root.classList.contains('dark')).toBe(true)
+        expect(root.getAttribute('data-theme')).toBe('claude')
+      })
+    })
+
+    it('restores a stored Claude preference', async () => {
+      window.localStorage.setItem('theme_id', 'claude')
+      await renderConfigDrawer()
+
+      await vi.waitFor(() =>
+        expect(document.documentElement.getAttribute('data-theme')).toBe(
+          'claude'
+        )
+      )
+    })
+
+    it('applies Command Center to <html> and localStorage', async () => {
+      const screen = await renderConfigDrawer()
+      await openDrawer(screen)
+
+      await userEvent.click(
+        screen.getByRole('radio', { name: /select command center/i })
+      )
+
+      await vi.waitFor(() =>
+        expect(document.documentElement.getAttribute('data-theme')).toBe(
+          'command-center'
+        )
+      )
+      expect(window.localStorage.getItem('theme_id')).toBe('command-center')
+    })
+
+    it('layers Command Center with dark mode', async () => {
+      setCookie('vite-ui-theme', 'dark')
+      const screen = await renderConfigDrawer()
+      await openDrawer(screen)
+
+      await userEvent.click(
+        screen.getByRole('radio', { name: /select command center/i })
+      )
+
+      await vi.waitFor(() => {
+        const root = document.documentElement
+        expect(root.classList.contains('dark')).toBe(true)
+        expect(root.getAttribute('data-theme')).toBe('command-center')
+      })
+    })
+
+    it('restores a stored Command Center preference', async () => {
+      window.localStorage.setItem('theme_id', 'command-center')
+      await renderConfigDrawer()
+
+      await vi.waitFor(() =>
+        expect(document.documentElement.getAttribute('data-theme')).toBe(
+          'command-center'
+        )
+      )
+    })
+
+    it('resets Retro Blue via the color theme section control', async () => {
+      const screen = await renderConfigDrawer()
+      await openDrawer(screen)
+
+      await userEvent.click(
+        screen.getByRole('radio', { name: /select retro blue/i })
+      )
+      await vi.waitFor(() =>
+        expect(window.localStorage.getItem('theme_id')).toBe('retro-blue')
+      )
+
+      await userEvent.click(
+        screen.getByRole('button', { name: /reset color theme to default/i })
+      )
+
+      await vi.waitFor(() => {
+        expect(window.localStorage.getItem('theme_id')).toBeNull()
+        expect(document.documentElement.hasAttribute('data-theme')).toBe(false)
       })
     })
   })
@@ -285,6 +440,9 @@ describe('ConfigDrawer (integration)', () => {
 
     await userEvent.click(screen.getByRole('radio', { name: /select dark/i }))
     await userEvent.click(
+      screen.getByRole('radio', { name: /select retro blue/i })
+    )
+    await userEvent.click(
       screen.getByRole('radio', { name: /select right to left/i })
     )
     await userEvent.click(
@@ -295,6 +453,9 @@ describe('ConfigDrawer (integration)', () => {
     )
 
     await vi.waitFor(() => expect(getCookie('vite-ui-theme')).toBe('dark'))
+    await vi.waitFor(() =>
+      expect(window.localStorage.getItem('theme_id')).toBe('retro-blue')
+    )
     await vi.waitFor(() => expect(getCookie('dir')).toBe('rtl'))
     await vi.waitFor(() => expect(getCookie('layout_variant')).toBe('floating'))
     await vi.waitFor(() =>
@@ -310,6 +471,10 @@ describe('ConfigDrawer (integration)', () => {
     await vi.waitFor(() => expect(getCookie('sidebar_state')).toBe('true'))
     await vi.waitFor(() => expect(getCookie('dir')).toBeUndefined())
     await vi.waitFor(() => expect(getCookie('vite-ui-theme')).toBeUndefined())
+    await vi.waitFor(() => {
+      expect(window.localStorage.getItem('theme_id')).toBeNull()
+      expect(document.documentElement.hasAttribute('data-theme')).toBe(false)
+    })
     await vi.waitFor(() => expect(getCookie('layout_variant')).toBe('inset'))
     await vi.waitFor(() => expect(getCookie('layout_collapsible')).toBe('icon'))
     await vi.waitFor(() =>

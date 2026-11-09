@@ -4,9 +4,19 @@ import { getCookie, setCookie, removeCookie } from '@/lib/cookies'
 type Theme = 'dark' | 'light' | 'system'
 type ResolvedTheme = Exclude<Theme, 'system'>
 
+const COLOR_THEMES = [
+  'default',
+  'retro-blue',
+  'claude',
+  'command-center',
+] as const
+type ColorTheme = (typeof COLOR_THEMES)[number]
+
 const DEFAULT_THEME = 'system'
+const DEFAULT_COLOR_THEME: ColorTheme = 'default'
 const THEME_COOKIE_NAME = 'vite-ui-theme'
 const THEME_COOKIE_MAX_AGE = 60 * 60 * 24 * 365 // 1 year
+const COLOR_THEME_STORAGE_KEY = 'theme_id'
 
 type ThemeProviderProps = {
   children: React.ReactNode
@@ -15,18 +25,24 @@ type ThemeProviderProps = {
 }
 
 type ThemeProviderState = {
+  colorTheme: ColorTheme
   defaultTheme: Theme
   resolvedTheme: ResolvedTheme
   theme: Theme
+  setColorTheme: (colorTheme: ColorTheme) => void
   setTheme: (theme: Theme) => void
+  resetColorTheme: () => void
   resetTheme: () => void
 }
 
 const initialState: ThemeProviderState = {
+  colorTheme: DEFAULT_COLOR_THEME,
   defaultTheme: DEFAULT_THEME,
   resolvedTheme: 'light',
   theme: DEFAULT_THEME,
+  setColorTheme: () => null,
   setTheme: () => null,
+  resetColorTheme: () => null,
   resetTheme: () => null,
 }
 
@@ -41,6 +57,15 @@ export function ThemeProvider({
   const [theme, _setTheme] = useState<Theme>(
     () => (getCookie(storageKey) as Theme) || defaultTheme
   )
+  const [colorTheme, _setColorTheme] = useState<ColorTheme>(() => {
+    const storedColorTheme = window.localStorage.getItem(
+      COLOR_THEME_STORAGE_KEY
+    ) as ColorTheme | null
+
+    return storedColorTheme && COLOR_THEMES.includes(storedColorTheme)
+      ? storedColorTheme
+      : DEFAULT_COLOR_THEME
+  })
 
   // Optimized: Memoize the resolved theme calculation to prevent unnecessary re-computations
   const resolvedTheme = useMemo((): ResolvedTheme => {
@@ -75,6 +100,26 @@ export function ThemeProvider({
     return () => mediaQuery.removeEventListener('change', handleChange)
   }, [theme, resolvedTheme])
 
+  useEffect(() => {
+    const root = window.document.documentElement
+
+    if (colorTheme === DEFAULT_COLOR_THEME) {
+      root.removeAttribute('data-theme')
+    } else {
+      root.setAttribute('data-theme', colorTheme)
+    }
+  }, [colorTheme])
+
+  const setColorTheme = (colorTheme: ColorTheme) => {
+    window.localStorage.setItem(COLOR_THEME_STORAGE_KEY, colorTheme)
+    _setColorTheme(colorTheme)
+  }
+
+  const resetColorTheme = () => {
+    window.localStorage.removeItem(COLOR_THEME_STORAGE_KEY)
+    _setColorTheme(DEFAULT_COLOR_THEME)
+  }
+
   const setTheme = (theme: Theme) => {
     setCookie(storageKey, theme, THEME_COOKIE_MAX_AGE)
     _setTheme(theme)
@@ -86,9 +131,12 @@ export function ThemeProvider({
   }
 
   const contextValue = {
+    colorTheme,
     defaultTheme,
     resolvedTheme,
+    resetColorTheme,
     resetTheme,
+    setColorTheme,
     theme,
     setTheme,
   }

@@ -8,8 +8,11 @@ import { IconLayoutFull } from '@/assets/custom/icon-layout-full'
 import { IconSidebarFloating } from '@/assets/custom/icon-sidebar-floating'
 import { IconSidebarInset } from '@/assets/custom/icon-sidebar-inset'
 import { IconSidebarSidebar } from '@/assets/custom/icon-sidebar-sidebar'
+import { IconThemeClaude } from '@/assets/custom/icon-theme-claude'
+import { IconThemeCommandCenter } from '@/assets/custom/icon-theme-command-center'
 import { IconThemeDark } from '@/assets/custom/icon-theme-dark'
 import { IconThemeLight } from '@/assets/custom/icon-theme-light'
+import { IconThemeRetroBlue } from '@/assets/custom/icon-theme-retro-blue'
 import { IconThemeSystem } from '@/assets/custom/icon-theme-system'
 import { cn } from '@/lib/utils'
 import { useDirection } from '@/context/direction-provider'
@@ -30,12 +33,13 @@ import { useSidebar } from './ui/sidebar'
 export function ConfigDrawer() {
   const { setOpen } = useSidebar()
   const { resetDir } = useDirection()
-  const { resetTheme } = useTheme()
+  const { resetColorTheme, resetTheme } = useTheme()
   const { resetLayout } = useLayout()
 
   const handleReset = () => {
     setOpen(true)
     resetDir()
+    resetColorTheme()
     resetTheme()
     resetLayout()
   }
@@ -61,6 +65,7 @@ export function ConfigDrawer() {
         </SheetHeader>
         <div className='space-y-6 overflow-y-auto px-4'>
           <ThemeConfig />
+          <ColorThemeConfig />
           <SidebarConfig />
           <LayoutConfig />
           <DirConfig />
@@ -120,6 +125,7 @@ function SectionTitle({
 function RadioGroupItem({
   item,
   isTheme = false,
+  descriptionPrefix,
 }: {
   item: {
     value: string
@@ -127,13 +133,18 @@ function RadioGroupItem({
     icon: (props: SVGProps<SVGSVGElement>) => React.ReactElement
   }
   isTheme?: boolean
+  descriptionPrefix?: string
 }) {
+  const descriptionId = descriptionPrefix
+    ? `${descriptionPrefix}-${item.value}-description`
+    : `${item.value}-description`
+
   return (
     <Item
       value={item.value}
       className={cn('group outline-none', 'transition duration-200 ease-in')}
       aria-label={`Select ${item.label.toLowerCase()}`}
-      aria-describedby={`${item.value}-description`}
+      aria-describedby={descriptionId}
     >
       <div
         className={cn(
@@ -161,11 +172,7 @@ function RadioGroupItem({
           aria-hidden='true'
         />
       </div>
-      <div
-        className='mt-1 text-xs'
-        id={`${item.value}-description`}
-        aria-live='polite'
-      >
+      <div className='mt-1 text-xs' id={descriptionId} aria-live='polite'>
         {item.label}
       </div>
     </Item>
@@ -211,6 +218,62 @@ function ThemeConfig() {
       </Radio>
       <div id='theme-description' className='sr-only'>
         Choose between system preference, light mode, or dark mode
+      </div>
+    </div>
+  )
+}
+
+function ColorThemeConfig() {
+  const { colorTheme, resetColorTheme, setColorTheme } = useTheme()
+
+  return (
+    <div>
+      <SectionTitle
+        title='Color Theme'
+        showReset={colorTheme !== 'default'}
+        onReset={resetColorTheme}
+        resetAriaLabel='Reset color theme to default'
+      />
+      <Radio
+        value={colorTheme}
+        onValueChange={setColorTheme}
+        className='grid w-full max-w-md grid-cols-2 gap-4'
+        aria-label='Select color theme'
+        aria-describedby='color-theme-description'
+      >
+        {[
+          {
+            value: 'default',
+            label: 'Slate',
+            icon: IconThemeLight,
+          },
+          {
+            value: 'retro-blue',
+            label: 'Retro Blue',
+            icon: IconThemeRetroBlue,
+          },
+          {
+            value: 'claude',
+            label: 'Claude',
+            icon: IconThemeClaude,
+          },
+          {
+            value: 'command-center',
+            label: 'Command Center',
+            icon: IconThemeCommandCenter,
+          },
+        ].map((item) => (
+          <RadioGroupItem
+            key={item.value}
+            item={item}
+            isTheme
+            descriptionPrefix='color-theme'
+          />
+        ))}
+      </Radio>
+      <div id='color-theme-description' className='sr-only'>
+        Choose between Slate, Retro Blue, Claude, and Command Center. All
+        palettes support light, dark, and system modes.
       </div>
     </div>
   )

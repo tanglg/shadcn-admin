@@ -24,6 +24,13 @@
   --chart-4: oklch(0.828 0.189 84.429);
   --chart-5: oklch(0.769 0.188 70.08);
 
+  --primary-strong: var(--primary);
+  --primary-light: var(--ring);
+  --highlight: var(--chart-4);
+  --button-primary: var(--primary);
+  --button-primary-hover: color-mix(in oklab, var(--primary) 90%, transparent);
+  --button-primary-foreground: var(--primary-foreground);
+
   --sidebar: var(--background);
   --sidebar-foreground: var(--foreground);
   --sidebar-primary: var(--primary);
@@ -60,6 +67,208 @@
   --chart-5: oklch(0.645 0.246 16.439);
 }
 
+/* Retro Blue: warm paper, editorial blues, and a restrained gold highlight. */
+[data-theme='retro-blue'] {
+  --background: #fdfaf5;
+  --foreground: #3f4a5a;
+  --card: #ffffff;
+  --card-foreground: #3f4a5a;
+  --popover: #ffffff;
+  --popover-foreground: #3f4a5a;
+  --primary: #2d6dc3;
+  --primary-strong: #0066ff;
+  --primary-light: #8fb9ff;
+  --primary-foreground: #ffffff;
+  --button-primary: #2d6dc3;
+  --button-primary-hover: #0066ff;
+  --button-primary-foreground: #ffffff;
+  --highlight: #fad13b;
+  --secondary: color-mix(in oklab, var(--primary-light) 22%, var(--card));
+  --secondary-foreground: #2d6dc3;
+  --muted: color-mix(in oklab, var(--background) 90%, #7a6550);
+  --muted-foreground: #7a6550;
+  --accent: color-mix(in oklab, var(--primary-light) 28%, var(--card));
+  --accent-foreground: #2d6dc3;
+  --border: color-mix(in oklab, var(--primary-light) 32%, var(--card));
+  --input: color-mix(in oklab, var(--primary-light) 32%, var(--card));
+  --ring: #8fb9ff;
+  --chart-1: #2d6dc3;
+  --chart-2: #8fb9ff;
+  --chart-3: #3f4a5a;
+  --chart-4: #fad13b;
+  --chart-5: #7a6550;
+  --sidebar: var(--card);
+}
+
+.dark[data-theme='retro-blue'] {
+  --background: #0b1220;
+  --foreground: #c5cedb;
+  --card: #0f1b2d;
+  --card-foreground: #c5cedb;
+  --popover: #0f1b2d;
+  --popover-foreground: #c5cedb;
+  --primary: #3884eb;
+  --primary-strong: #8fb9ff;
+  --primary-light: #bcd8ff;
+  --primary-foreground: #ffffff;
+  --button-primary: #2871e9;
+  --button-primary-hover: #3884eb;
+  --button-primary-foreground: #ffffff;
+  --highlight: #faeb75;
+  --secondary: color-mix(in oklab, var(--primary) 18%, var(--card));
+  --secondary-foreground: #c5cedb;
+  --muted: color-mix(in oklab, var(--primary) 8%, var(--background));
+  --muted-foreground: #9bb3d7;
+  --accent: color-mix(in oklab, var(--primary) 18%, var(--card));
+  --accent-foreground: #c5cedb;
+  --border: color-mix(in oklab, var(--primary-light) 18%, var(--card));
+  --input: color-mix(in oklab, var(--primary-light) 18%, var(--card));
+  --ring: #3884eb;
+  --chart-1: #3884eb;
+  --chart-2: #bcd8ff;
+  --chart-3: #c5cedb;
+  --chart-4: #faeb75;
+  --chart-5: #9bb3d7;
+  --sidebar: var(--card);
+}
+
+/* Claude: warm vellum surfaces, articulate ink, and terra cotta accents. */
+[data-theme='claude'] {
+  --background: #faf9f5;
+  --foreground: #3d3d3a;
+  --card: #ffffff;
+  --card-foreground: #3d3d3a;
+  --popover: #ffffff;
+  --popover-foreground: #3d3d3a;
+  --primary: #141413;
+  --primary-strong: #1f1e1d;
+  --primary-light: #9c9a92;
+  --primary-foreground: #ffffff;
+  --button-primary: #141413;
+  --button-primary-hover: #1f1e1d;
+  --button-primary-foreground: #ffffff;
+  --highlight: #d97757;
+  --secondary: color-mix(in oklab, var(--primary-light) 16%, var(--card));
+  --secondary-foreground: #141413;
+  --muted: color-mix(in oklab, var(--background) 90%, #73726c);
+  --muted-foreground: #73726c;
+  --accent: color-mix(in oklab, var(--primary-light) 20%, var(--card));
+  --accent-foreground: #141413;
+  --border: color-mix(in oklab, var(--primary-light) 35%, var(--background));
+  --input: color-mix(in oklab, var(--primary-light) 35%, var(--background));
+  --ring: #9c9a92;
+  --chart-1: #141413;
+  --chart-2: #d97757;
+  --chart-3: #73726c;
+  --chart-4: #9c9a92;
+  --chart-5: #3d3d3a;
+}
+
+.dark[data-theme='claude'] {
+  --background: #141413;
+  --foreground: #dedcd1;
+  --card: #1f1e1d;
+  --card-foreground: #dedcd1;
+  --popover: #1f1e1d;
+  --popover-foreground: #dedcd1;
+  --primary: #faf9f5;
+  --primary-strong: #ffffff;
+  --primary-light: #dedcd1;
+  --primary-foreground: #141413;
+  --button-primary: #faf9f5;
+  --button-primary-hover: #ffffff;
+  --button-primary-foreground: #141413;
+  --highlight: #d97757;
+  --secondary: color-mix(in oklab, var(--primary-light) 12%, var(--card));
+  --secondary-foreground: #dedcd1;
+  --muted: color-mix(in oklab, var(--primary-light) 8%, var(--background));
+  --muted-foreground: #9c9a92;
+  --accent: color-mix(in oklab, var(--primary-light) 12%, var(--card));
+  --accent-foreground: #faf9f5;
+  --border: color-mix(in oklab, var(--primary-light) 20%, var(--card));
+  --input: color-mix(in oklab, var(--primary-light) 20%, var(--card));
+  --ring: #9c9a92;
+  --chart-1: #faf9f5;
+  --chart-2: #d97757;
+  --chart-3: #9c9a92;
+  --chart-4: #dedcd1;
+  --chart-5: #73726c;
+}
+
+/* Command Center: warm workspace, orange telemetry, and a dark glass shell. */
+[data-theme='command-center'] {
+  --radius: 0.5rem;
+  --background: #fcfaf7;
+  --foreground: #423d38;
+  --card: #ffffff;
+  --card-foreground: #423d38;
+  --popover: #ffffff;
+  --popover-foreground: #423d38;
+  --primary: #fe6e00;
+  --primary-strong: #ff6b00;
+  --primary-light: #ffb74d;
+  --primary-foreground: #ffffff;
+  --button-primary: #fe6e00;
+  --button-primary-hover: #ff6b00;
+  --button-primary-foreground: #ffffff;
+  --highlight: #ffb74d;
+  --secondary: #f3f4f6;
+  --secondary-foreground: #423d38;
+  --muted: #edebe9;
+  --muted-foreground: #797067;
+  --accent: color-mix(in oklab, var(--primary) 10%, var(--card));
+  --accent-foreground: #ff6b00;
+  --destructive: #fb2c36;
+  --border: #e3e0dd;
+  --input: #d1d5dc;
+  --ring: #f97015;
+  --chart-1: #fe6e00;
+  --chart-2: #3080ff;
+  --chart-3: #00c758;
+  --chart-4: #edb200;
+  --chart-5: #8200da;
+  --sidebar: rgb(0 0 0 / 70%);
+  --sidebar-foreground: #ffffff;
+  --sidebar-primary: #fe6e00;
+  --sidebar-primary-foreground: #ffffff;
+  --sidebar-accent: #fe6e00;
+  --sidebar-accent-foreground: #ffffff;
+  --sidebar-border: rgb(255 255 255 / 10%);
+  --sidebar-ring: #f97015;
+}
+
+.dark[data-theme='command-center'] {
+  --background: #413830;
+  --foreground: #fafaf9;
+  --card: #4a423a;
+  --card-foreground: #fafaf9;
+  --popover: #4a423a;
+  --popover-foreground: #fafaf9;
+  --primary: #fe6e00;
+  --primary-strong: #ff6b00;
+  --primary-light: #ffb74d;
+  --primary-foreground: #ffffff;
+  --button-primary: #fe6e00;
+  --button-primary-hover: #ff6b00;
+  --button-primary-foreground: #ffffff;
+  --highlight: #ffb74d;
+  --secondary: color-mix(in oklab, #fafaf9 10%, var(--card));
+  --secondary-foreground: #fafaf9;
+  --muted: color-mix(in oklab, #fafaf9 7%, var(--background));
+  --muted-foreground: #b9b3ac;
+  --accent: color-mix(in oklab, var(--primary) 18%, var(--card));
+  --accent-foreground: #fafaf9;
+  --destructive: #fb2c36;
+  --border: color-mix(in oklab, #fafaf9 15%, var(--card));
+  --input: color-mix(in oklab, #fafaf9 20%, var(--card));
+  --ring: #f97015;
+  --chart-1: #fe6e00;
+  --chart-2: #3080ff;
+  --chart-3: #00c758;
+  --chart-4: #edb200;
+  --chart-5: #8200da;
+}
+
 @theme inline {
   --font-inter: 'Inter', 'sans-serif';
   --font-manrope: 'Manrope', 'sans-serif';
@@ -75,7 +284,13 @@
   --color-popover: var(--popover);
   --color-popover-foreground: var(--popover-foreground);
   --color-primary: var(--primary);
+  --color-primary-strong: var(--primary-strong);
+  --color-primary-light: var(--primary-light);
   --color-primary-foreground: var(--primary-foreground);
+  --color-button-primary: var(--button-primary);
+  --color-button-primary-hover: var(--button-primary-hover);
+  --color-button-primary-foreground: var(--button-primary-foreground);
+  --color-highlight: var(--highlight);
   --color-secondary: var(--secondary);
   --color-secondary-foreground: var(--secondary-foreground);
   --color-muted: var(--muted);
