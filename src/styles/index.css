@@ -1,6 +1,7 @@
 @import 'tailwindcss';
 @import 'tw-animate-css';
 @import './theme.css';
+@import './brand-themes.css';
 
 @custom-variant dark (&:is(.dark *));
 
@@ -24,6 +25,54 @@
 
   [data-theme='command-center'] body {
     font-family: ui-sans-serif, system-ui, sans-serif;
+  }
+
+  [data-theme='homeui'] body,
+  [data-theme='softro'] body,
+  [data-theme='stripe'] body,
+  [data-theme='noirluxe'] body {
+    font-family: var(--font-inter);
+  }
+
+  [data-theme='supabase'] body {
+    font-family: var(--font-manrope);
+  }
+
+  [data-theme='schemablue'] body {
+    font-family: Roboto, var(--font-inter);
+  }
+
+  [data-theme='mistral'] body,
+  [data-theme='duolingo'] body,
+  [data-theme='cloudflare'] body,
+  [data-theme='canva'] body {
+    font-family: var(--font-inter);
+  }
+
+  [data-theme='skylearn'] body {
+    font-family: 'Atkinson Hyperlegible', var(--font-inter);
+    letter-spacing: 0.01em;
+  }
+
+  [data-theme='questui'] body {
+    font-family: Spectral, Georgia, serif;
+  }
+
+  [data-theme='schemablue'] :is(h1, h2, h3, h4, h5, h6) {
+    font-family: 'Roboto Mono', ui-monospace, monospace;
+  }
+
+  [data-theme='mistral'] :is(h1, h2, h3, h4, h5, h6),
+  [data-theme='noirluxe'] :is(h1, h2, h3, h4, h5, h6),
+  [data-theme='hubspot'] :is(h1, h2, h3, h4, h5, h6),
+  [data-theme='questui'] :is(h1, h2, h3, h4, h5, h6) {
+    font-family: Georgia, 'Times New Roman', serif;
+  }
+
+  [data-theme='duolingo'] [data-slot='button'] {
+    font-weight: 700;
+    letter-spacing: 0.05em;
+    text-transform: uppercase;
   }
 
   /* Override Radix scroll locking for sticky headers */

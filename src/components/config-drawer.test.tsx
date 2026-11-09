@@ -9,6 +9,22 @@ import { ThemeProvider } from '@/context/theme-provider'
 import { SidebarProvider } from '@/components/ui/sidebar'
 import { ConfigDrawer } from './config-drawer'
 
+const BRAND_COLOR_THEMES = [
+  { id: 'homeui', name: 'HomeUI' },
+  { id: 'schemablue', name: 'SchemaBlue' },
+  { id: 'mistral', name: 'Mistral AI' },
+  { id: 'supabase', name: 'Supabase' },
+  { id: 'noirluxe', name: 'NoirLuxe' },
+  { id: 'softro', name: 'Softro SaaS' },
+  { id: 'duolingo', name: 'Duolingo' },
+  { id: 'cloudflare', name: 'Cloudflare' },
+  { id: 'hubspot', name: 'HubSpot' },
+  { id: 'canva', name: 'Canva' },
+  { id: 'stripe', name: 'Stripe' },
+  { id: 'skylearn', name: 'Skylearn' },
+  { id: 'questui', name: 'QuestUI' },
+] as const
+
 async function renderConfigDrawer({
   sidebarDefaultOpen = true,
 }: {
@@ -244,6 +260,47 @@ describe('ConfigDrawer (integration)', () => {
           'command-center'
         )
       )
+    })
+
+    describe.each(BRAND_COLOR_THEMES)('$name color theme', ({ id, name }) => {
+      it('applies the palette to <html> and localStorage', async () => {
+        const screen = await renderConfigDrawer()
+        await openDrawer(screen)
+
+        await userEvent.click(
+          screen.getByRole('radio', { name: new RegExp(`select ${name}`, 'i') })
+        )
+
+        await vi.waitFor(() =>
+          expect(document.documentElement.getAttribute('data-theme')).toBe(id)
+        )
+        expect(window.localStorage.getItem('theme_id')).toBe(id)
+      })
+
+      it('layers the palette with dark mode', async () => {
+        setCookie('vite-ui-theme', 'dark')
+        const screen = await renderConfigDrawer()
+        await openDrawer(screen)
+
+        await userEvent.click(
+          screen.getByRole('radio', { name: new RegExp(`select ${name}`, 'i') })
+        )
+
+        await vi.waitFor(() => {
+          const root = document.documentElement
+          expect(root.classList.contains('dark')).toBe(true)
+          expect(root.getAttribute('data-theme')).toBe(id)
+        })
+      })
+
+      it('restores the stored palette preference', async () => {
+        window.localStorage.setItem('theme_id', id)
+        await renderConfigDrawer()
+
+        await vi.waitFor(() =>
+          expect(document.documentElement.getAttribute('data-theme')).toBe(id)
+        )
+      })
     })
 
     it('resets Retro Blue via the color theme section control', async () => {

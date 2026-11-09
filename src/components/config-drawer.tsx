@@ -1,6 +1,21 @@
 import { type SVGProps } from 'react'
 import { Root as Radio, Item } from '@radix-ui/react-radio-group'
 import { CircleCheck, RotateCcw, Settings } from 'lucide-react'
+import {
+  IconThemeCanva,
+  IconThemeCloudflare,
+  IconThemeDuolingo,
+  IconThemeHomeUI,
+  IconThemeHubSpot,
+  IconThemeMistral,
+  IconThemeNoirLuxe,
+  IconThemeQuestUI,
+  IconThemeSchemaBlue,
+  IconThemeSkylearn,
+  IconThemeSoftro,
+  IconThemeStripe,
+  IconThemeSupabase,
+} from '@/assets/custom/brand-theme-icons'
 import { IconDir } from '@/assets/custom/icon-dir'
 import { IconLayoutCompact } from '@/assets/custom/icon-layout-compact'
 import { IconLayoutDefault } from '@/assets/custom/icon-layout-default'
@@ -262,6 +277,71 @@ function ColorThemeConfig() {
             label: 'Command Center',
             icon: IconThemeCommandCenter,
           },
+          {
+            value: 'homeui',
+            label: 'HomeUI',
+            icon: IconThemeHomeUI,
+          },
+          {
+            value: 'schemablue',
+            label: 'SchemaBlue',
+            icon: IconThemeSchemaBlue,
+          },
+          {
+            value: 'mistral',
+            label: 'Mistral AI',
+            icon: IconThemeMistral,
+          },
+          {
+            value: 'supabase',
+            label: 'Supabase',
+            icon: IconThemeSupabase,
+          },
+          {
+            value: 'noirluxe',
+            label: 'NoirLuxe',
+            icon: IconThemeNoirLuxe,
+          },
+          {
+            value: 'softro',
+            label: 'Softro SaaS',
+            icon: IconThemeSoftro,
+          },
+          {
+            value: 'duolingo',
+            label: 'Duolingo',
+            icon: IconThemeDuolingo,
+          },
+          {
+            value: 'cloudflare',
+            label: 'Cloudflare',
+            icon: IconThemeCloudflare,
+          },
+          {
+            value: 'hubspot',
+            label: 'HubSpot',
+            icon: IconThemeHubSpot,
+          },
+          {
+            value: 'canva',
+            label: 'Canva',
+            icon: IconThemeCanva,
+          },
+          {
+            value: 'stripe',
+            label: 'Stripe',
+            icon: IconThemeStripe,
+          },
+          {
+            value: 'skylearn',
+            label: 'Skylearn',
+            icon: IconThemeSkylearn,
+          },
+          {
+            value: 'questui',
+            label: 'QuestUI',
+            icon: IconThemeQuestUI,
+          },
         ].map((item) => (
           <RadioGroupItem
             key={item.value}
@@ -272,8 +352,8 @@ function ColorThemeConfig() {
         ))}
       </Radio>
       <div id='color-theme-description' className='sr-only'>
-        Choose between Slate, Retro Blue, Claude, and Command Center. All
-        palettes support light, dark, and system modes.
+        Choose a color palette. Palette selection remains independent of light,
+        dark, and system modes.
       </div>
     </div>
   )

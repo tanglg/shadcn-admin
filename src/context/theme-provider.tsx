@@ -9,6 +9,19 @@ const COLOR_THEMES = [
   'retro-blue',
   'claude',
   'command-center',
+  'homeui',
+  'schemablue',
+  'mistral',
+  'supabase',
+  'noirluxe',
+  'softro',
+  'duolingo',
+  'cloudflare',
+  'hubspot',
+  'canva',
+  'stripe',
+  'skylearn',
+  'questui',
 ] as const
 type ColorTheme = (typeof COLOR_THEMES)[number]
 
