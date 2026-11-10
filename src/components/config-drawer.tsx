@@ -43,12 +43,14 @@ import {
   SheetTitle,
   SheetTrigger,
 } from '@/components/ui/sheet'
+import { Switch } from '@/components/ui/switch'
 import { useSidebar } from './ui/sidebar'
 
 export function ConfigDrawer() {
   const { setOpen } = useSidebar()
   const { resetDir } = useDirection()
-  const { resetColorTheme, resetTheme } = useTheme()
+  const { resetColorTheme, resetTheme, resetGlassEnabled, resetGlassOpacity } =
+    useTheme()
   const { resetLayout } = useLayout()
 
   const handleReset = () => {
@@ -56,6 +58,8 @@ export function ConfigDrawer() {
     resetDir()
     resetColorTheme()
     resetTheme()
+    resetGlassEnabled()
+    resetGlassOpacity()
     resetLayout()
   }
 
@@ -81,6 +85,7 @@ export function ConfigDrawer() {
         <div className='space-y-6 overflow-y-auto px-4'>
           <ThemeConfig />
           <ColorThemeConfig />
+          <GlassConfig />
           <SidebarConfig />
           <LayoutConfig />
           <DirConfig />
@@ -233,6 +238,70 @@ function ThemeConfig() {
       </Radio>
       <div id='theme-description' className='sr-only'>
         Choose between system preference, light mode, or dark mode
+      </div>
+    </div>
+  )
+}
+
+function GlassConfig() {
+  const { glassEnabled, glassOpacity, setGlassEnabled, setGlassOpacity } =
+    useTheme()
+
+  return (
+    <div>
+      <SectionTitle title='Effects' />
+      <div className='space-y-4 rounded-md border p-3'>
+        <div className='flex items-center justify-between gap-4'>
+          <div className='space-y-1'>
+            <label htmlFor='glass-enabled' className='text-sm font-medium'>
+              Frosted glass
+            </label>
+            <p
+              id='glass-enabled-description'
+              className='text-xs text-muted-foreground'
+            >
+              Use translucent surfaces and background blur.
+            </p>
+          </div>
+          <Switch
+            id='glass-enabled'
+            checked={glassEnabled}
+            onCheckedChange={setGlassEnabled}
+            aria-describedby='glass-enabled-description'
+          />
+        </div>
+        <div className='space-y-2 border-t pt-3'>
+          <div className='flex items-center justify-between gap-4'>
+            <label htmlFor='glass-opacity' className='text-sm font-medium'>
+              Glass opacity
+            </label>
+            <output
+              htmlFor='glass-opacity'
+              className='text-xs text-muted-foreground tabular-nums'
+            >
+              {glassOpacity}%
+            </output>
+          </div>
+          <input
+            id='glass-opacity'
+            type='range'
+            min={50}
+            max={100}
+            step={1}
+            value={glassOpacity}
+            disabled={!glassEnabled}
+            onChange={(event) => setGlassOpacity(Number(event.target.value))}
+            className='h-4 w-full cursor-pointer accent-primary disabled:cursor-not-allowed disabled:opacity-50'
+            aria-describedby='glass-opacity-description'
+            aria-valuetext={`${glassOpacity}%`}
+          />
+          <p
+            id='glass-opacity-description'
+            className='text-xs text-muted-foreground'
+          >
+            Adjust surface opacity and preview it in real time.
+          </p>
+        </div>
       </div>
     </div>
   )

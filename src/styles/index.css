@@ -103,8 +103,6 @@
       [data-slot='sidebar'][data-mobile='true']
     ) {
     border-color: rgb(255 255 255 / 10%);
-    -webkit-backdrop-filter: blur(12px);
-    backdrop-filter: blur(12px);
   }
 
   [data-theme='command-center'] [data-slot='sidebar-container'] {
@@ -113,10 +111,8 @@
 
   [data-theme='command-center'] [data-slot='header'] {
     color: #ffffff;
-    background-color: rgb(0 0 0 / 70%);
+    background-color: var(--sidebar);
     border-bottom: 1px solid rgb(255 255 255 / 10%);
-    -webkit-backdrop-filter: blur(12px);
-    backdrop-filter: blur(12px);
   }
 
   [data-theme='command-center'] [data-slot='header'] [data-slot='button'] {
@@ -136,6 +132,104 @@
   [data-theme='command-center'] [data-slot='header'] kbd {
     background-color: rgb(255 255 255 / 10%);
     border-color: rgb(255 255 255 / 10%);
+  }
+}
+
+/* Optional glass effect: unlayered rules intentionally refine semantic utilities. */
+html[data-glass='true']
+  :is(
+    [data-slot='header'],
+    [data-slot='sidebar-inner'],
+    [data-slot='sidebar'][data-mobile='true']
+  ) {
+  background-color: var(--sidebar);
+  background-color: var(--glass-chrome);
+  border-color: var(--glass-border);
+  -webkit-backdrop-filter: blur(var(--glass-blur)) saturate(140%);
+  backdrop-filter: blur(var(--glass-blur)) saturate(140%);
+}
+
+html[data-glass='true'] [data-slot='card'] {
+  background-color: var(--card);
+  background-color: var(--glass-surface);
+  border-color: var(--glass-border);
+  box-shadow: var(--glass-shadow);
+  -webkit-backdrop-filter: blur(12px) saturate(140%);
+  backdrop-filter: blur(12px) saturate(140%);
+}
+
+html[data-glass='true']
+  :is(
+    [data-slot='popover-content'],
+    [data-slot='dropdown-menu-content'],
+    [data-slot='dropdown-menu-sub-content'],
+    [data-slot='select-content'],
+    [data-slot='dialog-content'],
+    [data-slot='alert-dialog-content'],
+    [data-slot='sheet-content'],
+    [data-slot='tooltip-content']
+  ) {
+  background-color: var(--popover);
+  background-color: var(--glass-overlay);
+  border-color: var(--glass-border);
+  box-shadow: var(--glass-shadow);
+  -webkit-backdrop-filter: blur(20px) saturate(140%);
+  backdrop-filter: blur(20px) saturate(140%);
+}
+
+@supports not (
+  (backdrop-filter: blur(1px)) or (-webkit-backdrop-filter: blur(1px))
+) {
+  html[data-glass='true'] {
+    --glass-surface: var(--card);
+    --glass-chrome: var(--sidebar);
+    --glass-overlay: var(--popover);
+  }
+
+  html[data-glass='true']
+    :is(
+      [data-slot='header'],
+      [data-slot='sidebar-inner'],
+      [data-slot='sidebar'][data-mobile='true'],
+      [data-slot='card'],
+      [data-slot='popover-content'],
+      [data-slot='dropdown-menu-content'],
+      [data-slot='dropdown-menu-sub-content'],
+      [data-slot='select-content'],
+      [data-slot='dialog-content'],
+      [data-slot='alert-dialog-content'],
+      [data-slot='sheet-content'],
+      [data-slot='tooltip-content']
+    ) {
+    -webkit-backdrop-filter: none;
+    backdrop-filter: none;
+  }
+}
+
+@media (prefers-reduced-transparency: reduce) {
+  html[data-glass='true'] {
+    --glass-surface: var(--card);
+    --glass-chrome: var(--sidebar);
+    --glass-overlay: var(--popover);
+  }
+
+  html[data-glass='true']
+    :is(
+      [data-slot='header'],
+      [data-slot='sidebar-inner'],
+      [data-slot='sidebar'][data-mobile='true'],
+      [data-slot='card'],
+      [data-slot='popover-content'],
+      [data-slot='dropdown-menu-content'],
+      [data-slot='dropdown-menu-sub-content'],
+      [data-slot='select-content'],
+      [data-slot='dialog-content'],
+      [data-slot='alert-dialog-content'],
+      [data-slot='sheet-content'],
+      [data-slot='tooltip-content']
+    ) {
+    -webkit-backdrop-filter: none;
+    backdrop-filter: none;
   }
 }
 

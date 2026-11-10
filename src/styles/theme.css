@@ -31,6 +31,27 @@
   --button-primary-hover: color-mix(in oklab, var(--primary) 90%, transparent);
   --button-primary-foreground: var(--primary-foreground);
 
+  --glass-blur: 16px;
+  --glass-opacity: 82%;
+  --glass-surface: color-mix(
+    in oklab,
+    var(--card) calc(var(--glass-opacity) + 2%),
+    transparent
+  );
+  --glass-chrome: color-mix(
+    in oklab,
+    var(--background) calc(var(--glass-opacity) - 10%),
+    transparent
+  );
+  --glass-overlay: color-mix(
+    in oklab,
+    var(--popover) var(--glass-opacity),
+    transparent
+  );
+  --glass-border: color-mix(in oklab, var(--foreground) 12%, transparent);
+  --glass-shadow: 0 8px 32px
+    color-mix(in oklab, var(--foreground) 8%, transparent);
+
   --sidebar: var(--background);
   --sidebar-foreground: var(--foreground);
   --sidebar-primary: var(--primary);
@@ -65,6 +86,16 @@
   --chart-3: oklch(0.769 0.188 70.08);
   --chart-4: oklch(0.627 0.265 303.9);
   --chart-5: oklch(0.645 0.246 16.439);
+  --glass-surface: color-mix(
+    in oklab,
+    var(--card) calc(var(--glass-opacity) - 4%),
+    transparent
+  );
+  --glass-chrome: color-mix(
+    in oklab,
+    var(--background) calc(var(--glass-opacity) - 14%),
+    transparent
+  );
 }
 
 /* Retro Blue: warm paper, editorial blues, and a restrained gold highlight. */
@@ -198,6 +229,8 @@
 /* Command Center: warm workspace, orange telemetry, and a dark glass shell. */
 [data-theme='command-center'] {
   --radius: 0.5rem;
+  --glass-blur: 12px;
+  --glass-chrome: rgb(0 0 0 / calc(var(--glass-opacity) - 12%));
   --background: #fcfaf7;
   --foreground: #423d38;
   --card: #ffffff;
@@ -227,7 +260,7 @@
   --chart-3: #00c758;
   --chart-4: #edb200;
   --chart-5: #8200da;
-  --sidebar: rgb(0 0 0 / 70%);
+  --sidebar: #1c1b1a;
   --sidebar-foreground: #ffffff;
   --sidebar-primary: #fe6e00;
   --sidebar-primary-foreground: #ffffff;

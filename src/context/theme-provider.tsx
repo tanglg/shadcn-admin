@@ -30,6 +30,10 @@ const DEFAULT_COLOR_THEME: ColorTheme = 'default'
 const THEME_COOKIE_NAME = 'vite-ui-theme'
 const THEME_COOKIE_MAX_AGE = 60 * 60 * 24 * 365 // 1 year
 const COLOR_THEME_STORAGE_KEY = 'theme_id'
+const GLASS_STORAGE_KEY = 'glass_enabled'
+const GLASS_OPACITY_STORAGE_KEY = 'glass_opacity'
+const DEFAULT_GLASS_ENABLED = false
+const DEFAULT_GLASS_OPACITY = 82
 
 type ThemeProviderProps = {
   children: React.ReactNode
@@ -42,10 +46,16 @@ type ThemeProviderState = {
   defaultTheme: Theme
   resolvedTheme: ResolvedTheme
   theme: Theme
+  glassEnabled: boolean
+  glassOpacity: number
   setColorTheme: (colorTheme: ColorTheme) => void
   setTheme: (theme: Theme) => void
+  setGlassEnabled: (enabled: boolean) => void
+  setGlassOpacity: (opacity: number) => void
   resetColorTheme: () => void
   resetTheme: () => void
+  resetGlassEnabled: () => void
+  resetGlassOpacity: () => void
 }
 
 const initialState: ThemeProviderState = {
@@ -53,10 +63,16 @@ const initialState: ThemeProviderState = {
   defaultTheme: DEFAULT_THEME,
   resolvedTheme: 'light',
   theme: DEFAULT_THEME,
+  glassEnabled: DEFAULT_GLASS_ENABLED,
+  glassOpacity: DEFAULT_GLASS_OPACITY,
   setColorTheme: () => null,
   setTheme: () => null,
+  setGlassEnabled: () => null,
+  setGlassOpacity: () => null,
   resetColorTheme: () => null,
   resetTheme: () => null,
+  resetGlassEnabled: () => null,
+  resetGlassOpacity: () => null,
 }
 
 const ThemeContext = createContext<ThemeProviderState>(initialState)
@@ -78,6 +94,18 @@ export function ThemeProvider({
     return storedColorTheme && COLOR_THEMES.includes(storedColorTheme)
       ? storedColorTheme
       : DEFAULT_COLOR_THEME
+  })
+  const [glassEnabled, _setGlassEnabled] = useState<boolean>(
+    () => window.localStorage.getItem(GLASS_STORAGE_KEY) === 'true'
+  )
+  const [glassOpacity, _setGlassOpacity] = useState<number>(() => {
+    const storedOpacity = window.localStorage.getItem(GLASS_OPACITY_STORAGE_KEY)
+    if (storedOpacity === null) return DEFAULT_GLASS_OPACITY
+
+    const parsedOpacity = Number(storedOpacity)
+    return Number.isFinite(parsedOpacity)
+      ? Math.min(100, Math.max(50, parsedOpacity))
+      : DEFAULT_GLASS_OPACITY
   })
 
   // Optimized: Memoize the resolved theme calculation to prevent unnecessary re-computations
@@ -123,6 +151,20 @@ export function ThemeProvider({
     }
   }, [colorTheme])
 
+  useEffect(() => {
+    window.document.documentElement.setAttribute(
+      'data-glass',
+      String(glassEnabled)
+    )
+  }, [glassEnabled])
+
+  useEffect(() => {
+    window.document.documentElement.style.setProperty(
+      '--glass-opacity',
+      `${glassOpacity}%`
+    )
+  }, [glassOpacity])
+
   const setColorTheme = (colorTheme: ColorTheme) => {
     window.localStorage.setItem(COLOR_THEME_STORAGE_KEY, colorTheme)
     _setColorTheme(colorTheme)
@@ -131,6 +173,26 @@ export function ThemeProvider({
   const resetColorTheme = () => {
     window.localStorage.removeItem(COLOR_THEME_STORAGE_KEY)
     _setColorTheme(DEFAULT_COLOR_THEME)
+  }
+
+  const setGlassEnabled = (enabled: boolean) => {
+    window.localStorage.setItem(GLASS_STORAGE_KEY, String(enabled))
+    _setGlassEnabled(enabled)
+  }
+
+  const setGlassOpacity = (opacity: number) => {
+    window.localStorage.setItem(GLASS_OPACITY_STORAGE_KEY, String(opacity))
+    _setGlassOpacity(opacity)
+  }
+
+  const resetGlassEnabled = () => {
+    window.localStorage.removeItem(GLASS_STORAGE_KEY)
+    _setGlassEnabled(DEFAULT_GLASS_ENABLED)
+  }
+
+  const resetGlassOpacity = () => {
+    window.localStorage.removeItem(GLASS_OPACITY_STORAGE_KEY)
+    _setGlassOpacity(DEFAULT_GLASS_OPACITY)
   }
 
   const setTheme = (theme: Theme) => {
@@ -149,9 +211,15 @@ export function ThemeProvider({
     resolvedTheme,
     resetColorTheme,
     resetTheme,
+    resetGlassEnabled,
+    resetGlassOpacity,
     setColorTheme,
     theme,
     setTheme,
+    glassEnabled,
+    setGlassEnabled,
+    glassOpacity,
+    setGlassOpacity,
   }
 
   return (

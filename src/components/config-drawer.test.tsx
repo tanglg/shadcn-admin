@@ -58,9 +58,13 @@ describe('ConfigDrawer (integration)', () => {
 
     clearCookies()
     window.localStorage.removeItem('theme_id')
+    window.localStorage.removeItem('glass_enabled')
+    window.localStorage.removeItem('glass_opacity')
 
+    document.documentElement.style.removeProperty('--glass-opacity')
     document.documentElement.classList.remove('light', 'dark')
     document.documentElement.removeAttribute('data-theme')
+    document.documentElement.removeAttribute('data-glass')
     document.documentElement.removeAttribute('dir')
   })
 
@@ -75,6 +79,7 @@ describe('ConfigDrawer (integration)', () => {
 
     await expect.element(drawer.getByText(/^Theme$/i)).toBeInTheDocument()
     await expect.element(drawer.getByText(/^Color Theme$/i)).toBeInTheDocument()
+    await expect.element(drawer.getByText(/^Effects$/i)).toBeInTheDocument()
     await expect.element(drawer.getByText(/^Layout$/i)).toBeInTheDocument()
     await expect
       .element(drawer.getByText(/^Sidebar$/i).first())
@@ -321,6 +326,122 @@ describe('ConfigDrawer (integration)', () => {
       await vi.waitFor(() => {
         expect(window.localStorage.getItem('theme_id')).toBeNull()
         expect(document.documentElement.hasAttribute('data-theme')).toBe(false)
+      })
+    })
+  })
+
+  describe('glass effect preference', () => {
+    it('defaults to off and persists both toggle states', async () => {
+      const screen = await renderConfigDrawer()
+      await openDrawer(screen)
+      const toggle = screen.getByRole('switch', { name: /frosted glass/i })
+
+      await expect.element(toggle).toHaveAttribute('aria-checked', 'false')
+      await vi.waitFor(() =>
+        expect(document.documentElement.getAttribute('data-glass')).toBe(
+          'false'
+        )
+      )
+
+      await userEvent.click(toggle)
+      await vi.waitFor(() => {
+        expect(document.documentElement.getAttribute('data-glass')).toBe('true')
+        expect(window.localStorage.getItem('glass_enabled')).toBe('true')
+      })
+      await expect.element(toggle).toHaveAttribute('aria-checked', 'true')
+
+      await userEvent.click(toggle)
+      await vi.waitFor(() => {
+        expect(document.documentElement.getAttribute('data-glass')).toBe(
+          'false'
+        )
+        expect(window.localStorage.getItem('glass_enabled')).toBe('false')
+      })
+    })
+
+    it('updates and persists opacity in real time', async () => {
+      const screen = await renderConfigDrawer()
+      await openDrawer(screen)
+      const slider = screen.getByRole('slider', { name: /glass opacity/i })
+
+      await expect.element(slider).toBeDisabled()
+      await userEvent.click(
+        screen.getByRole('switch', { name: /frosted glass/i })
+      )
+      await expect.element(slider).toBeEnabled()
+
+      const input = document.querySelector<HTMLInputElement>('#glass-opacity')
+      if (!input) throw new Error('Expected the opacity slider to render')
+      input.focus()
+      await userEvent.keyboard('{Home}')
+
+      await vi.waitFor(() => {
+        expect(
+          document.documentElement.style.getPropertyValue('--glass-opacity')
+        ).toBe('50%')
+        expect(window.localStorage.getItem('glass_opacity')).toBe('50')
+      })
+      await expect.element(slider).toHaveValue('50')
+
+      await userEvent.keyboard('{ArrowRight}')
+      await vi.waitFor(() => {
+        expect(
+          document.documentElement.style.getPropertyValue('--glass-opacity')
+        ).toBe('51%')
+        expect(window.localStorage.getItem('glass_opacity')).toBe('51')
+      })
+      await expect.element(slider).toHaveValue('51')
+    })
+
+    it('restores the stored opacity preference', async () => {
+      window.localStorage.setItem('glass_enabled', 'true')
+      window.localStorage.setItem('glass_opacity', '67')
+      const screen = await renderConfigDrawer()
+      await openDrawer(screen)
+
+      const slider = screen.getByRole('slider', { name: /glass opacity/i })
+      await expect.element(slider).toHaveValue('67')
+      await vi.waitFor(() =>
+        expect(
+          document.documentElement.style.getPropertyValue('--glass-opacity')
+        ).toBe('67%')
+      )
+    })
+
+    it('restores the enabled preference', async () => {
+      window.localStorage.setItem('glass_enabled', 'true')
+      const screen = await renderConfigDrawer()
+      await openDrawer(screen)
+
+      await expect
+        .element(screen.getByRole('switch', { name: /frosted glass/i }))
+        .toHaveAttribute('aria-checked', 'true')
+      await vi.waitFor(() =>
+        expect(document.documentElement.getAttribute('data-glass')).toBe('true')
+      )
+    })
+
+    it('resets the preference with the global reset control', async () => {
+      window.localStorage.setItem('glass_enabled', 'true')
+      window.localStorage.setItem('glass_opacity', '67')
+      const screen = await renderConfigDrawer()
+      await openDrawer(screen)
+
+      await userEvent.click(
+        screen.getByRole('button', {
+          name: /reset all settings to default values/i,
+        })
+      )
+
+      await vi.waitFor(() => {
+        expect(window.localStorage.getItem('glass_enabled')).toBeNull()
+        expect(window.localStorage.getItem('glass_opacity')).toBeNull()
+        expect(document.documentElement.getAttribute('data-glass')).toBe(
+          'false'
+        )
+        expect(
+          document.documentElement.style.getPropertyValue('--glass-opacity')
+        ).toBe('82%')
       })
     })
   })
