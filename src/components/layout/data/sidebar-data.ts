@@ -1,6 +1,7 @@
 import {
   Construction,
   LayoutDashboard,
+  LibraryBig,
   Monitor,
   Bug,
   ListTodo,
@@ -198,6 +199,11 @@ export const sidebarData: SidebarData = {
           title: 'Help Center',
           url: '/help-center',
           icon: HelpCircle,
+        },
+        {
+          title: '组件库',
+          url: '/component-library',
+          icon: LibraryBig,
         },
       ],
     },
