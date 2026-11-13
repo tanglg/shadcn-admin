@@ -90,7 +90,8 @@ html[data-theme='garden-fresh'] [data-slot='sidebar-wrapper'] {
   background: transparent;
 }
 
-html[data-theme='garden-fresh'] body:has([data-slot='sidebar-wrapper']) {
+html[data-theme='garden-fresh']
+  body:has(:is([data-slot='sidebar-wrapper'], [data-slot='sign-up-page'])) {
   background: var(--background);
   background-image:
     linear-gradient(rgb(234 241 226 / 46%), rgb(234 241 226 / 5%) 75%),
@@ -101,7 +102,8 @@ html[data-theme='garden-fresh'] body:has([data-slot='sidebar-wrapper']) {
   background-attachment: fixed;
 }
 
-html.dark[data-theme='garden-fresh'] body:has([data-slot='sidebar-wrapper']) {
+html.dark[data-theme='garden-fresh']
+  body:has(:is([data-slot='sidebar-wrapper'], [data-slot='sign-up-page'])) {
   background-image:
     linear-gradient(rgb(16 27 19 / 55%), rgb(16 27 19 / 65%)),
     url('../assets/produce-distribution.webp');
@@ -126,12 +128,18 @@ html[data-theme='garden-fresh']
     [data-slot='sidebar'][data-mobile='true'],
     [data-slot='main'],
     [data-slot='tasks-heading'],
-    [data-slot='tasks-list']
+    [data-slot='tasks-list'],
+    [data-slot='sign-up-page'] [data-sign-up-panel]
   ) {
   background-color: var(--garden-panel);
-  backdrop-filter: blur(8px);
+  backdrop-filter: var(--garden-panel-filter, blur(8px));
 }
 
+@media (prefers-reduced-transparency: reduce) {
+  html[data-theme='garden-fresh'] {
+    --garden-panel-filter: none;
+  }
+}
 html[data-theme='garden-fresh'] [data-slot='header'] {
   display: flex;
   flex-shrink: 0;

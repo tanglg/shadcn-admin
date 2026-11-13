@@ -1,5 +1,5 @@
 import * as React from 'react'
-import { ChevronsUpDown, Plus, Sprout } from 'lucide-react'
+import { ChevronsUpDown, Plus } from 'lucide-react'
 import { useTheme } from '@/context/theme-provider'
 import {
   DropdownMenu,
@@ -16,6 +16,7 @@ import {
   SidebarMenuItem,
   useSidebar,
 } from '@/components/ui/sidebar'
+import { gardenBrand } from './garden-brand'
 
 type TeamSwitcherProps = {
   teams: {
@@ -31,7 +32,7 @@ export function TeamSwitcher({ teams }: TeamSwitcherProps) {
   const [activeTeam, setActiveTeam] = React.useState(teams[0])
   const showGardenBrand =
     colorTheme === 'garden-fresh' && activeTeam === teams[0]
-  const Logo = showGardenBrand ? Sprout : activeTeam.logo
+  const Logo = showGardenBrand ? gardenBrand.Logo : activeTeam.logo
 
   return (
     <SidebarMenu>
@@ -47,10 +48,10 @@ export function TeamSwitcher({ teams }: TeamSwitcherProps) {
               </div>
               <div className='grid flex-1 text-start text-sm leading-tight'>
                 <span className='truncate font-semibold'>
-                  {showGardenBrand ? '田园鲜绿' : activeTeam.name}
+                  {showGardenBrand ? gardenBrand.name : activeTeam.name}
                 </span>
                 <span className='truncate text-xs'>
-                  {showGardenBrand ? '校园蔬菜配送中心' : activeTeam.plan}
+                  {showGardenBrand ? gardenBrand.subtitle : activeTeam.plan}
                 </span>
               </div>
               <ChevronsUpDown className='ms-auto' />

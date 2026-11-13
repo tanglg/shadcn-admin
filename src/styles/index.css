@@ -141,6 +141,7 @@ html[data-glass='true']
   :is(
     [data-slot='header'],
     [data-slot='sidebar-inner'],
+    [data-sign-up-panel]:not([data-slot='card']),
     [data-slot='sidebar'][data-mobile='true']
   ) {
   background-color: var(--sidebar);
@@ -191,6 +192,7 @@ html[data-glass='true']
     :is(
       [data-slot='header'],
       [data-slot='sidebar-inner'],
+      [data-sign-up-panel]:not([data-slot='card']),
       [data-slot='sidebar'][data-mobile='true'],
       [data-slot='card'],
       [data-slot='popover-content'],
@@ -218,6 +220,7 @@ html[data-glass='true']
     :is(
       [data-slot='header'],
       [data-slot='sidebar-inner'],
+      [data-sign-up-panel]:not([data-slot='card']),
       [data-slot='sidebar'][data-mobile='true'],
       [data-slot='card'],
       [data-slot='popover-content'],
@@ -232,6 +235,27 @@ html[data-glass='true']
     -webkit-backdrop-filter: none;
     backdrop-filter: none;
   }
+}
+
+html:has([data-slot='sign-up-page']),
+body:has([data-slot='sign-up-page']) {
+  height: 100%;
+  overflow: hidden;
+}
+
+[data-slot='sign-up-page'] > header[data-slot='header'] {
+  border-bottom: 2px solid var(--primary);
+}
+
+/* Other palettes tint the same produce photo with their current background. */
+html:not([data-theme='garden-fresh']) body:has([data-slot='sign-up-page']) {
+  background:
+    linear-gradient(
+      color-mix(in oklab, var(--background) 85%, transparent),
+      color-mix(in oklab, var(--background) 45%, transparent)
+    ),
+    url('../assets/produce-distribution.webp') center bottom / cover no-repeat
+      fixed;
 }
 
 @utility container {
