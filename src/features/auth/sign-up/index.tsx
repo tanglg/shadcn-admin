@@ -2,6 +2,7 @@ import { Link } from '@tanstack/react-router'
 import { ClipboardList, Leaf, Truck } from 'lucide-react'
 import { Card, CardContent, CardHeader } from '@/components/ui/card'
 import { gardenBrand } from '@/components/layout/garden-brand'
+import { GardenAuthLayout } from '../garden-auth-layout'
 import { SignUpForm } from './components/sign-up-form'
 
 const services = [
@@ -12,45 +13,31 @@ const services = [
 
 export function SignUp() {
   return (
-    <div
-      data-slot='sign-up-page'
-      className='fixed inset-0 flex flex-col overflow-hidden text-foreground'
-    >
-      <header className='shrink-0 bg-background' data-slot='header'>
-        <div className='mx-auto flex w-full max-w-7xl flex-wrap items-center justify-between gap-3 px-4 py-4 sm:px-8'>
-          <div className='flex items-center gap-3'>
-            <span className='grid size-8 shrink-0 place-items-center rounded-lg bg-sidebar-primary text-sidebar-primary-foreground'>
-              <gardenBrand.Logo className='size-4' aria-hidden='true' />
-            </span>
-            <div className='grid text-sm leading-tight'>
-              <span className='font-semibold'>{gardenBrand.name}</span>
-              <span className='text-xs'>{gardenBrand.subtitle}</span>
-            </div>
-          </div>
-          <div className='flex flex-wrap items-center gap-x-3 gap-y-2 text-xs text-muted-foreground sm:gap-x-4 sm:text-sm'>
-            <p className='max-sm:order-last max-sm:w-full'>
-              注册遇到问题？{' '}
-              <a
-                href='tel:4008892026'
-                className='whitespace-nowrap hover:text-primary hover:underline'
-              >
-                服务热线 400-889-2026
-              </a>
-            </p>
-            <span aria-hidden='true' className='hidden h-4 border-s sm:block' />
-            <p className='whitespace-nowrap'>
-              已有账号？{' '}
-              <Link
-                to='/sign-in'
-                className='font-semibold text-primary hover:underline'
-              >
-                立即登录
-              </Link>
-            </p>
-          </div>
+    <GardenAuthLayout
+      actions={
+        <div className='flex flex-wrap items-center gap-x-3 gap-y-2 text-xs text-muted-foreground sm:gap-x-4 sm:text-sm'>
+          <p className='max-sm:order-last max-sm:w-full'>
+            注册遇到问题？{' '}
+            <a
+              href='tel:4008892026'
+              className='whitespace-nowrap hover:text-primary hover:underline'
+            >
+              服务热线 400-889-2026
+            </a>
+          </p>
+          <span aria-hidden='true' className='hidden h-4 border-s sm:block' />
+          <p className='whitespace-nowrap'>
+            已有账号？{' '}
+            <Link
+              to='/sign-in'
+              className='font-semibold text-primary hover:underline'
+            >
+              立即登录
+            </Link>
+          </p>
         </div>
-      </header>
-
+      }
+    >
       <main className='mx-auto grid min-h-0 w-full max-w-7xl flex-1 items-center gap-6 overflow-y-auto overscroll-y-contain px-4 py-4 sm:px-8 lg:grid-cols-[minmax(0,0.84fr)_minmax(0,1.5fr)] lg:gap-12'>
         <section
           aria-labelledby='sign-up-intro'
@@ -86,7 +73,10 @@ export function SignUp() {
         </section>
 
         <section aria-labelledby='sign-up-title' className='min-w-0'>
-          <Card data-sign-up-panel className='gap-4 overflow-hidden pt-0 pb-5'>
+          <Card
+            data-garden-auth-panel
+            className='gap-4 overflow-hidden pt-0 pb-5'
+          >
             <CardHeader className='gap-2 border-t-4 border-t-primary bg-linear-to-b from-primary/10 to-primary/5 px-4 py-4 text-primary shadow-[inset_0_-1px_0_var(--border)] sm:px-8'>
               <p
                 lang='en'
@@ -116,12 +106,6 @@ export function SignUp() {
           </Card>
         </section>
       </main>
-
-      <footer data-sign-up-panel className='shrink-0 border-t bg-background'>
-        <div className='mx-auto max-w-7xl px-4 py-4 text-center text-xs text-muted-foreground sm:px-8'>
-          © 2026 {gardenBrand.name} · {gardenBrand.subtitle}
-        </div>
-      </footer>
-    </div>
+    </GardenAuthLayout>
   )
 }
