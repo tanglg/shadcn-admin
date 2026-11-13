@@ -9,6 +9,15 @@ type BrandPreview = {
   muted: string
 }
 
+export const IconThemeGardenFresh = createBrandThemeIcon('garden-fresh', {
+  background: '#f4f7ef',
+  surface: '#ffffff',
+  primary: '#245a3a',
+  secondary: '#d97719',
+  text: '#10351f',
+  muted: '#6b7c68',
+})
+
 function createBrandThemeIcon(id: string, palette: BrandPreview) {
   function BrandThemeIcon(props: SVGProps<SVGSVGElement>) {
     return (

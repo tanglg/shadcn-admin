@@ -106,6 +106,7 @@ export function TasksTable({ data }: DataTableProps) {
 
   return (
     <div
+      data-slot='tasks-list'
       className={cn(
         'max-sm:has-[div[role="toolbar"]]:mb-16', // Add margin bottom to the table on mobile when the toolbar is visible
         'flex flex-1 flex-col gap-4'
@@ -127,7 +128,7 @@ export function TasksTable({ data }: DataTableProps) {
           },
         ]}
       />
-      <div className='overflow-hidden rounded-md border'>
+      <div data-slot='tasks-grid' className='overflow-hidden rounded-md border'>
         <Table className='min-w-xl'>
           <TableHeader>
             {table.getHeaderGroups().map((headerGroup) => (

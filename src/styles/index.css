@@ -2,6 +2,7 @@
 @import 'tw-animate-css';
 @import './theme.css';
 @import './brand-themes.css';
+@import './garden-fresh.css';
 
 @custom-variant dark (&:is(.dark *));
 

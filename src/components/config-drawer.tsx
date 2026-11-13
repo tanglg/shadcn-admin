@@ -5,6 +5,7 @@ import {
   IconThemeCanva,
   IconThemeCloudflare,
   IconThemeDuolingo,
+  IconThemeGardenFresh,
   IconThemeHomeUI,
   IconThemeHubSpot,
   IconThemeMistral,
@@ -330,6 +331,11 @@ function ColorThemeConfig() {
             value: 'default',
             label: 'Slate',
             icon: IconThemeLight,
+          },
+          {
+            value: 'garden-fresh',
+            label: '田园鲜绿',
+            icon: IconThemeGardenFresh,
           },
           {
             value: 'retro-blue',

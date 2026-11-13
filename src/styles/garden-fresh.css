@@ -1,0 +1,308 @@
+[data-theme='garden-fresh'] {
+  --radius: 0.875rem;
+  --background: #f4f7ef;
+  --foreground: #143421;
+  --card: #ffffff;
+  --card-foreground: var(--foreground);
+  --popover: var(--card);
+  --popover-foreground: var(--foreground);
+  --primary: #245a3a;
+  --primary-foreground: #ffffff;
+  --button-primary: #a84b0a;
+  --button-primary-hover: #8f4008;
+  --button-primary-foreground: #ffffff;
+  --highlight: #f8e9ce;
+  --secondary: #e6efdc;
+  --secondary-foreground: #245a3a;
+  --muted: #edf2e8;
+  --muted-foreground: #50634f;
+  --accent: #dfedd2;
+  --accent-foreground: #143421;
+  --border: #dce5d7;
+  --input: #b9c9b4;
+  --ring: #57865b;
+  --chart-1: #245a3a;
+  --chart-2: #77a64d;
+  --chart-3: #d97719;
+  --chart-4: #478c79;
+  --chart-5: #c29b44;
+  --sidebar: #fafbf8;
+  --sidebar-foreground: var(--foreground);
+  --sidebar-primary: var(--primary);
+  --sidebar-primary-foreground: var(--primary-foreground);
+  --sidebar-accent: var(--accent);
+  --sidebar-accent-foreground: var(--accent-foreground);
+  --sidebar-border: var(--border);
+  --sidebar-ring: var(--ring);
+  --garden-shadow: 0 2px 6px rgb(35 63 29 / 9%);
+  --garden-hero: #e4efd8;
+  --garden-hero-text: #10351f;
+  --garden-panel: color-mix(in srgb, var(--sidebar) 78%, transparent);
+  --garden-table: color-mix(in srgb, var(--card) 48%, transparent);
+}
+
+.dark[data-theme='garden-fresh'] {
+  --background: #141e16;
+  --foreground: #edf5e8;
+  --card: #1c2a1f;
+  --primary: #9dce8e;
+  --primary-foreground: #152418;
+  --highlight: #47341f;
+  --secondary: #293d2a;
+  --secondary-foreground: #d8ecd0;
+  --muted: #263729;
+  --muted-foreground: #acbeaa;
+  --accent: #304832;
+  --accent-foreground: #e1f1db;
+  --border: #354a37;
+  --input: #526c53;
+  --ring: #93be88;
+  --chart-1: #9dce8e;
+  --chart-2: #6fae62;
+  --chart-3: #efa252;
+  --chart-4: #64ad9b;
+  --chart-5: #d1ae64;
+  --sidebar: #1a281d;
+  --garden-shadow: 0 2px 6px rgb(0 0 0 / 25%);
+  --garden-hero: #243b29;
+  --garden-hero-text: #edf5e8;
+  --garden-panel: color-mix(in srgb, var(--sidebar) 88%, transparent);
+  --garden-table: color-mix(in srgb, var(--card) 60%, transparent);
+}
+
+@layer base {
+  [data-theme='garden-fresh'] body {
+    font-family:
+      'Noto Sans SC', 'Microsoft YaHei', 'PingFang SC', var(--font-inter),
+      sans-serif;
+  }
+}
+
+/* Match the card elevation across the existing desktop sidebar variants. */
+[data-theme='garden-fresh'] body {
+  background-color: var(--background);
+}
+
+html[data-theme='garden-fresh'] [data-slot='sidebar-wrapper'] {
+  --garden-gap: 1rem;
+  --garden-header-height: 4rem;
+  --garden-sidebar-offset: var(--sidebar-width);
+  background: transparent;
+}
+
+html[data-theme='garden-fresh'] body:has([data-slot='sidebar-wrapper']) {
+  background: var(--background);
+  background-image:
+    linear-gradient(rgb(234 241 226 / 46%), rgb(234 241 226 / 5%) 75%),
+    url('../assets/produce-distribution.webp');
+  background-position: center bottom;
+  background-size: cover;
+  background-repeat: no-repeat;
+  background-attachment: fixed;
+}
+
+html.dark[data-theme='garden-fresh'] body:has([data-slot='sidebar-wrapper']) {
+  background-image:
+    linear-gradient(rgb(16 27 19 / 55%), rgb(16 27 19 / 65%)),
+    url('../assets/produce-distribution.webp');
+}
+
+html[data-theme='garden-fresh'] [data-slot='sidebar-inset'] {
+  margin: 0;
+  min-width: 0;
+  background: transparent;
+  box-shadow: none;
+}
+
+html[data-theme='garden-fresh']
+  [data-slot='sidebar-inset']:has(main[data-layout='fixed']) {
+  height: 100svh;
+}
+
+html[data-theme='garden-fresh']
+  :is(
+    [data-slot='header'],
+    [data-slot='sidebar-inner'],
+    [data-slot='sidebar'][data-mobile='true'],
+    [data-slot='main'],
+    [data-slot='tasks-heading'],
+    [data-slot='tasks-list']
+  ) {
+  background-color: var(--garden-panel);
+  backdrop-filter: blur(8px);
+}
+
+html[data-theme='garden-fresh'] [data-slot='header'] {
+  display: flex;
+  flex-shrink: 0;
+  border-bottom: 1px solid var(--border);
+}
+
+html[data-theme='garden-fresh'] [data-slot='header'] > div:last-child {
+  min-width: 0;
+  flex: 1;
+}
+
+html[data-theme='garden-fresh']
+  :is([data-slot='main'], [data-slot='tasks-main']) {
+  width: auto;
+  max-width: none;
+  margin: var(--garden-gap);
+}
+
+html[data-theme='garden-fresh']
+  :is(
+    [data-slot='main'],
+    [data-slot='tasks-heading'],
+    [data-slot='tasks-list']
+  ) {
+  border-radius: var(--radius);
+  border: 1px solid var(--border);
+}
+
+html[data-theme='garden-fresh'] [data-slot='tasks-main'] {
+  gap: var(--garden-gap);
+  padding: 0;
+}
+
+html[data-theme='garden-fresh']
+  :is([data-slot='tasks-heading'], [data-slot='tasks-list']) {
+  padding: clamp(0.75rem, 1.4vw, 1.5rem);
+}
+
+html[data-theme='garden-fresh'] [data-slot='tasks-grid'] {
+  background-color: var(--garden-table);
+}
+
+@media (width >= 768px) {
+  html[data-theme='garden-fresh']
+    [data-slot='sidebar-inset']:has(
+      > [data-slot='header'] > .garden-header-brand
+    ) {
+    height: 100svh;
+  }
+
+  html[data-theme='garden-fresh']
+    [data-slot='sidebar-inset']:has(
+      > [data-slot='header'] > .garden-header-brand
+    )
+    > main {
+    flex: 1;
+    min-height: 0;
+  }
+
+  html[data-theme='garden-fresh']
+    [data-slot='sidebar-inset']:has(
+      > [data-slot='header'] > .garden-header-brand
+    )
+    > main[data-layout='auto']:not([data-slot='tasks-main']) {
+    overflow: auto;
+  }
+
+  html[data-theme='garden-fresh'] [data-slot='tasks-list'] {
+    min-height: 0;
+  }
+
+  html[data-theme='garden-fresh'] [data-slot='tasks-grid'] {
+    overflow: auto;
+  }
+
+  html[data-theme='garden-fresh']
+    [data-slot='sidebar-wrapper']:has([data-collapsible='offcanvas']) {
+    --garden-sidebar-offset: 0px;
+  }
+
+  html[data-theme='garden-fresh']
+    [data-slot='sidebar-wrapper']:has([data-collapsible='icon']) {
+    --garden-sidebar-offset: var(--sidebar-width-icon);
+  }
+
+  html[data-theme='garden-fresh']
+    [data-slot='sidebar-wrapper']:has(
+      [data-collapsible='icon']:is(
+        [data-variant='floating'],
+        [data-variant='inset']
+      )
+    ) {
+    --garden-sidebar-offset: calc(var(--sidebar-width-icon) + 1rem);
+  }
+
+  html[data-theme='garden-fresh'] [data-slot='header'] {
+    width: auto;
+    margin-inline-start: calc(-1 * var(--garden-sidebar-offset));
+  }
+
+  html[data-theme='garden-fresh'] .garden-header-brand {
+    display: flex;
+    align-items: center;
+    width: var(--sidebar-width);
+    padding-inline: 0.75rem;
+  }
+
+  html[data-theme='garden-fresh']
+    [data-slot='sidebar-wrapper']:has(.garden-header-brand)
+    [data-slot='sidebar-header'] {
+    display: none;
+  }
+
+  html[data-theme='garden-fresh']
+    [data-slot='sidebar-wrapper']:has(.garden-header-brand)
+    [data-slot='sidebar-container'] {
+    inset-block-start: var(--garden-header-height);
+    height: calc(100svh - var(--garden-header-height));
+    padding-block: var(--garden-gap);
+  }
+}
+
+[data-theme='garden-fresh'] [data-slot='sidebar-container'] {
+  padding-block: 0.75rem;
+  padding-inline: 0.75rem 0.375rem;
+  border: 0;
+}
+
+[data-theme='garden-fresh'] [data-slot='sidebar-inner'] {
+  border: 1px solid var(--sidebar-border);
+}
+
+[data-theme='garden-fresh']
+  :is([data-slot='sidebar-inner'], [data-slot='card']) {
+  border-radius: var(--radius);
+  box-shadow: var(--garden-shadow);
+}
+
+[data-theme='garden-fresh']
+  [data-slot='sidebar-menu-button'][data-active='true'] {
+  background: var(--sidebar-accent);
+  color: var(--sidebar-accent-foreground);
+}
+
+[data-theme='garden-fresh'] [data-slot='dashboard-heading'] {
+  min-height: 12rem;
+  align-items: flex-start;
+  justify-content: center;
+  flex-direction: column;
+  gap: 0.75rem;
+  margin-bottom: 1rem;
+  padding: clamp(1rem, 3vw, 2.25rem);
+  border-radius: var(--radius);
+  color: var(--garden-hero-text);
+  background: var(--garden-hero) url('/images/garden-fresh.webp') center / cover
+    no-repeat;
+}
+
+.dark[data-theme='garden-fresh'] [data-slot='dashboard-heading'] {
+  background-image:
+    linear-gradient(90deg, #243b29 18%, #243b29a6 52%, #182b1b26),
+    url('/images/garden-fresh.webp');
+}
+
+[data-theme='garden-fresh'] [data-slot='dashboard-heading'] h1 {
+  font-size: clamp(1.65rem, 3vw, 2.75rem);
+  line-height: 1.15;
+}
+
+@media (width < 640px) {
+  [data-theme='garden-fresh'] [data-slot='dashboard-heading'] {
+    background-position: left center;
+  }
+}

@@ -10,6 +10,7 @@ import { SidebarProvider } from '@/components/ui/sidebar'
 import { ConfigDrawer } from './config-drawer'
 
 const BRAND_COLOR_THEMES = [
+  { id: 'garden-fresh', name: '田园鲜绿' },
   { id: 'homeui', name: 'HomeUI' },
   { id: 'schemablue', name: 'SchemaBlue' },
   { id: 'mistral', name: 'Mistral AI' },

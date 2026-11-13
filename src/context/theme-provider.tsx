@@ -22,6 +22,7 @@ const COLOR_THEMES = [
   'stripe',
   'skylearn',
   'questui',
+  'garden-fresh',
 ] as const
 type ColorTheme = (typeof COLOR_THEMES)[number]
 
